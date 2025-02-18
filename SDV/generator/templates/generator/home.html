@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthetic Data Generator</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #005f73;
+            --secondary-color: #0a9396;
+            --light-bg: #f4f7fb;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--light-bg);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .feature-card {
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .feature-card .card-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        #hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 100px 0;
+        }
+
+        .timeline-item {
+            border-left: 3px solid var(--primary-color);
+            padding-left: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -11px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        /* Navbar Styling */
+        .navbar-nav .nav-link {
+            color: white !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link i {
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effects */
+        .navbar-nav .nav-link:hover {
+            color: var(--secondary-color) !important;
+            transform: scale(1.05);
+        }
+
+        .navbar-nav .nav-link:hover i {
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        /* Icon Animation Keyframes */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 991px) {
+            .navbar-nav .nav-link {
+                justify-content: center;
+            }
+        }
+
+        /* Adjust the navbar collapse behavior */
+        .navbar-collapse {
+            justify-content: flex-end;
+        }
+
+        /* Hero Section Heading */
+        .hero-heading {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 80px;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
+        .alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Ensure it's on top */
+        }
+        
+        .alert-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Buttons styling */
+        .alert-box button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .alert-box .confirm-btn {
+            background-color: #28a745;
+            color: #fff;
+        }
+        
+        .alert-box .cancel-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        
+        /* Fade-in animation */
+        .alert-overlay.show {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'generator:generate_metadata' %}">
+                            <i class="fas fa-brain"></i> Model Training
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'generator:upload_file' %}">
+                            <i class="fas fa-magic"></i> Generate Data
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#metrics">
+                            <i class="fas fa-chart-line"></i> Metrics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#usage-report">
+                            <i class="fas fa-file-alt"></i> Usage Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#security">
+                            <i class="fas fa-shield-alt"></i> Security
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#settings">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#help">
+                            <i class="fas fa-question-circle"></i> Help
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link logout-link" href="{% url 'generator:login' %}" id="logoutButton">
+                            <i  button id="logoutButton" class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Heading Below Navbar -->
+    <section id="hero">
+        <div class="container">
+            <h1 class="hero-heading">Synthetic Data Generator</h1>
+            <p class="lead mb-5 text-center">Generate high-quality, privacy-preserving synthetic data for your most challenging use cases.</p>
+            <a href="#features" class="btn btn-light btn-lg d-block mx-auto">Explore Features</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">Powerful Features</h2>
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-chart-line feature-card-icon"></i>
+                            <h5 class="card-title">Data Variety</h5>
+                            <p class="card-text text-muted">Generate diverse datasets for different applications.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-shield-alt feature-card-icon"></i>
+                            <h5 class="card-title">Privacy & Security</h5>
+                            <p class="card-text text-muted">Ensure full data protection and privacy.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-cogs feature-card-icon"></i>
+                            <h5 class="card-title">Customization</h5>
+                            <p class="card-text text-muted">Tailor data generation to your needs.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-expand feature-card-icon"></i>
+                            <h5 class="card-title">Scalability</h5>
+                            <p class="card-text text-muted">Scalable solutions for large datasets.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-works" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">How It Works</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="timeline-item mb-4">
+                        <h4>1. Train a Model</h4>
+                        <p>Upload your dataset or connect to cloud storage to train a synthetic data generation model.</p>
+                    </div>
+                    <div class="timeline-item mb-4">
+                        <h4>2. Generate Data</h4>
+                        <p>Use the trained model to create high-fidelity synthetic datasets with preserved statistical properties.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>3. Analyze Metrics</h4>
+                        <p>Review comprehensive metrics to validate the quality and utility of your synthetic data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js">
+        
+        document.getElementById('logoutButton').addEventListener('click', (event) => {
+            event.preventDefault();
+            document.querySelector('.alert-overlay').classList.add('show');
+        });
+        
+        document.querySelector('.confirm-btn').addEventListener('click', () => {
+            // Redirect to logout URL or perform other logout actions
+            window.location.href = '/logout'; // Replace with your actual logout URL
+            document.querySelector('.alert-overlay').classList.remove('show');
+        });
+        
+        document.querySelector('.cancel-btn').addEventListener('click', () => {
+            document.querySelector('.alert-overlay').classList.remove('show');
+        });
+
+
+    </script>
+</body>
+</html>

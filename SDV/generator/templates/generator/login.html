@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login | Data Synthesis Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3B82F6;
+            --secondary-color: #10B981;
+        }
+        body {
+            background: linear-gradient(135deg, #f4f7fa 0%, #e6eaf0 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08), 0 5px 15px rgba(0,0,0,0.06);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="w-full max-w-md">
+        <div class="login-container rounded-2xl p-10 space-y-8">
+            <div class="text-center">
+                <svg class="mx-auto h-20 w-20 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                <h1 class="text-3xl font-bold mt-4 text-gray-800">Welcome Back</h1>
+                <p class="text-gray-600 mt-2">Sign in to your account</p>
+            </div>
+
+            <!-- Login form -->
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="id_username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                    <input 
+                        type="text" 
+                        name="username" 
+                        id="id_username" 
+                        required 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg 
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 
+                               focus:border-transparent transition duration-300"
+                        placeholder="Enter your username"
+                    >
+                </div>
+
+                <div>
+                    <label for="id_password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        id="id_password" 
+                        required 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg 
+                               focus:outline-none focus:ring-2 focus:ring-blue-500 
+                               focus:border-transparent transition duration-300"
+                        placeholder="Enter your password"
+                    >
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input 
+                            id="remember_me" 
+                            name="remember_me" 
+                            type="checkbox" 
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 
+                                   border-gray-300 rounded"
+                        >
+                        <label for="remember_me" class="ml-2 block text-sm text-gray-900">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <div class="text-sm">
+                        <a href="{% url 'generator:forgot_password' %}" class="font-medium text-blue-600 hover:text-blue-500">
+                            Forgot password?
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <button 
+                        type="submit" 
+                        class="w-full flex justify-center py-3 px-4 
+                               border border-transparent rounded-lg 
+                               shadow-sm text-sm font-semibold 
+                               text-white bg-gradient-to-r from-blue-500 to-green-400 
+                               hover:from-blue-600 hover:to-green-500 
+                               focus:outline-none focus:ring-2 
+                               focus:ring-offset-2 focus:ring-blue-500 
+                               transition duration-300 transform hover:scale-105"
+                    >
+                        Sign In
+                    </button>
+                </div>
+            </form>
+
+            <!-- Link to register page -->
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    Don't have an account? 
+                    <a href="{% url 'generator:register' %}" class="font-medium text-blue-600 hover:text-blue-500">
+                        Sign up
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <div class="text-center text-xs text-gray-500 mt-4">
+            <p>Secure · Confidential · Advanced</p>
+        </div>
+    </div>
+</body>
+</html>

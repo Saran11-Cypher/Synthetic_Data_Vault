@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synthetic Data Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #005f73;
+            --secondary-color: #0a9396;
+            --background-color: #f4f7fb;
+            --text-color: #333;
+            --card-background: white;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+
+
+                
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .results-header {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .results-section {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .results-section:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            animation: pulse 1s infinite;
+        }
+
+        .results-section h2 {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            max-height: 400px;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .upload-link {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-top: 2rem;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .upload-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="results-header">
+            <h1>Synthetic Data Generation Results</h1>
+        </header>
+
+        <section class="results-section">
+            <h2>Original Data</h2>
+            <div>{{ original_data|safe }}</div>
+        </section>
+
+        <section class="results-section">
+            <h2>Generated Synthetic Data</h2>
+            <div>{{ synthetic_data|safe }}</div>
+        </section>
+
+        <section class="results-section">
+            <h2>Metadata</h2>
+            <pre>{{ metadata_json }}</pre>
+        </section>
+
+        <div style="text-align: center;">
+            <a href="{% url 'generator:upload_file' %}" class="upload-link">Upload Another File</a>
+        </div>
+    </div>
+</body>
+</html>

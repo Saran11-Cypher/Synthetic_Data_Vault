@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Metadata</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 700px;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-in-out;
+            text-align: center;
+        }
+
+        /* Title Animation */
+        h1 {
+            color: #007bff;
+            margin-bottom: 30px;
+            font-weight: bold;
+            animation: slideInDown 1s ease-in-out;
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            letter-spacing: 1px;
+        }
+
+        /* Button Customization */
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-outline-primary {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Form Elements */
+        form input, form textarea, form select {
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.2rem;
+            padding: 10px;
+            border: 2px solid #ddd;
+        }
+        form input:focus, form textarea:focus, form select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+            transform: scale(1.03);
+        }
+
+        form select {
+            appearance: none;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%23007bff" viewBox="0 0 20 20"><path d="M7 7l3-3 3 3H7zm6 6l-3 3-3-3h6z"/></svg>') no-repeat right 10px center;
+            background-size: 20px;
+            padding-right: 35px;
+        }
+
+        /* Hover Effects */
+        form input:hover, form textarea:hover, form select:hover {
+            border-color: #0056b3;
+            transform: scale(1.02);
+        }
+
+        /* Table Styles */
+        .table-container {
+            margin-top: 30px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        .table {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        .table th {
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
+        }
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+        .table tbody tr:hover {
+            background-color: #f1f9ff;
+            transform: scale(1.01);
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Main Container -->
+<div class="container">
+    <h1 class="display-4">Generate Metadata</h1>
+    <!-- Metadata Generator Button -->
+    <div class="mb-5">
+        <a href="{% url 'generator:generate_metadata' %}" class="btn btn-outline-primary btn-lg shadow-sm pulse-animation">
+            Go to Metadata Generator
+        </a>
+    </div>
+
+    <!-- Form -->
+    <form method="POST" id="metadataForm">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-custom btn-lg btn-block shadow pulse-animation">Generate</button>
+    </form>
+
+    <!-- Table Example -->
+    <div class="table-container mt-5">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Table Name</th>
+                    <th>Data Rows</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Metadata Set 1</td>
+                    <td>50</td>
+                </tr>
+                <tr>
+                    <td>Metadata Set 2</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>Metadata Set 3</td>
+                    <td>75</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Submit Form Animation and Alert
+        $('#metadataForm').on('submit', function(e) {
+            e.preventDefault();
+            const button = $(this).find('button[type="submit"]');
+            button.html('Generating... <span class="spinner-border spinner-border-sm"></span>');
+            button.prop('disabled', true);
+            setTimeout(() => {
+                alert("Metadata generation completed successfully!");
+                button.html('Generate');
+                button.prop('disabled', false);
+            }, 2000); // Simulate a delay for demonstration
+        });
+    });
+</script>
+</body>
+</html>
